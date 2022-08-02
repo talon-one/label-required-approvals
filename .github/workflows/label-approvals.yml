@@ -10,6 +10,6 @@ jobs:
     name: Check if the PR requires a specifit team approval
     steps:
       - name: Check Labels
-        uses: lvegerano/label-approvals
+        uses: lvegerano/label-approvals@main
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
