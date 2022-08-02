@@ -30,7 +30,7 @@ const run = async () => {
       context.repo.repo
     );
 
-    info(`pr labels - ${prLabels}`);
+    info(`pr labels - ${prLabels.toString()}`);
   } catch (error: any) {
     coreError(error);
     setFailed(error.message);
