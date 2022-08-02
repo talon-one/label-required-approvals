@@ -9092,9 +9092,9 @@ const run = () => main_awaiter(void 0, void 0, void 0, function* () {
         const repoName = (_c = github.context.payload.repository) === null || _c === void 0 ? void 0 : _c.name;
         // const labels = getPrLabels(client, prNumber);
         // console.log(`labels test: ${labels.toString()}`);
-        (0,core.debug)(`number - ${prNumber}`);
-        (0,core.debug)(`orgname - ${orgName}`);
-        (0,core.debug)(`repoName - ${repoName}`);
+        (0,core.info)(`number - ${prNumber}`);
+        (0,core.info)(`orgname - ${orgName}`);
+        (0,core.info)(`repoName - ${repoName}`);
     }
     catch (error) {
         (0,core.error)(error);

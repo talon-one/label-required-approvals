@@ -1,4 +1,10 @@
-import { getInput, error as coreError, setFailed, debug } from "@actions/core";
+import {
+  getInput,
+  error as coreError,
+  setFailed,
+  debug,
+  info,
+} from "@actions/core";
 import { context } from "@actions/github";
 import { createClient, getPrLabels } from "./github";
 
@@ -14,9 +20,9 @@ const run = async () => {
     // const labels = getPrLabels(client, prNumber);
     // console.log(`labels test: ${labels.toString()}`);
 
-    debug(`number - ${prNumber}`);
-    debug(`orgname - ${orgName}`);
-    debug(`repoName - ${repoName}`);
+    info(`number - ${prNumber}`);
+    info(`orgname - ${orgName}`);
+    info(`repoName - ${repoName}`);
   } catch (error: any) {
     coreError(error);
     setFailed(error.message);
