@@ -2,8 +2,8 @@ import {
   getInput,
   error as coreError,
   setFailed,
-  debug,
   info,
+  notice,
 } from "@actions/core";
 import { context } from "@actions/github";
 import { createClient, getPrLabels } from "./github";
@@ -14,15 +14,23 @@ const run = async () => {
     const configPath = getInput("configuration-path", { required: true });
     const client = createClient(token);
     const prNumber = context.payload.pull_request?.number;
-    const orgName = context.payload.repository?.owner.login;
-    const repoName = context.payload.repository?.name;
+
+    if (!prNumber) {
+      notice("Could not get a pull request number from context, exiting...");
+      return;
+    }
 
     // const labels = getPrLabels(client, prNumber);
     // console.log(`labels test: ${labels.toString()}`);
 
-    info(`number - ${prNumber}`);
-    info(`orgname - ${orgName}`);
-    info(`repoName - ${repoName}`);
+    const prLabels = await getPrLabels(
+      client,
+      prNumber,
+      context.repo.owner,
+      context.repo.repo
+    );
+
+    info(`pr labels - ${prLabels}`);
   } catch (error: any) {
     coreError(error);
     setFailed(error.message);
