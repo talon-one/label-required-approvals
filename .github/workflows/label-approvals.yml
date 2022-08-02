@@ -1,0 +1,15 @@
+name: PR Required Reviews
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, labeled, unlabeled]
+
+jobs:
+  label-required-approvals:
+    run-on: ubuntu-latest
+    name: Check if the PR requires a specifit team approval
+    steps:
+      - name: Check Labels
+        uses: lvegerano/label-approvals
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
