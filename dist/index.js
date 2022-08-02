@@ -9081,28 +9081,26 @@ var main_awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arg
 
 
 
-function run() {
+const run = () => main_awaiter(void 0, void 0, void 0, function* () {
     var _a, _b, _c;
-    return main_awaiter(this, void 0, void 0, function* () {
-        try {
-            const token = (0,core.getInput)("repo-token", { required: true });
-            const configPath = (0,core.getInput)("configuration-path", { required: true });
-            const client = createClient(token);
-            const prNumber = (_a = github.context.payload.pull_request) === null || _a === void 0 ? void 0 : _a.number;
-            const orgName = (_b = github.context.payload.repository) === null || _b === void 0 ? void 0 : _b.owner;
-            const repoName = (_c = github.context.payload.repository) === null || _c === void 0 ? void 0 : _c.name;
-            // const labels = getPrLabels(client, prNumber);
-            // console.log(`labels test: ${labels.toString()}`);
-            (0,core.debug)(`number - ${prNumber}`);
-            (0,core.debug)(`orgname - ${orgName}`);
-            (0,core.debug)(`repoName - ${repoName}`);
-        }
-        catch (error) {
-            (0,core.error)(error);
-            (0,core.setFailed)(error.message);
-        }
-    });
-}
+    try {
+        const token = (0,core.getInput)("repo-token", { required: true });
+        const configPath = (0,core.getInput)("configuration-path", { required: true });
+        const client = createClient(token);
+        const prNumber = (_a = github.context.payload.pull_request) === null || _a === void 0 ? void 0 : _a.number;
+        const orgName = (_b = github.context.payload.repository) === null || _b === void 0 ? void 0 : _b.owner;
+        const repoName = (_c = github.context.payload.repository) === null || _c === void 0 ? void 0 : _c.name;
+        // const labels = getPrLabels(client, prNumber);
+        // console.log(`labels test: ${labels.toString()}`);
+        (0,core.debug)(`number - ${prNumber}`);
+        (0,core.debug)(`orgname - ${orgName}`);
+        (0,core.debug)(`repoName - ${repoName}`);
+    }
+    catch (error) {
+        (0,core.error)(error);
+        (0,core.setFailed)(error.message);
+    }
+});
 run();
 
 })();

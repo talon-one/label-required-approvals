@@ -2,7 +2,7 @@ import { getInput, error as coreError, setFailed, debug } from "@actions/core";
 import { context } from "@actions/github";
 import { createClient, getPrLabels } from "./github";
 
-async function run() {
+const run = async () => {
   try {
     const token = getInput("repo-token", { required: true });
     const configPath = getInput("configuration-path", { required: true });
@@ -21,6 +21,6 @@ async function run() {
     coreError(error);
     setFailed(error.message);
   }
-}
+};
 
 run();
