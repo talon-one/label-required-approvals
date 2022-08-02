@@ -6,8 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
-    "package": "ncc build",
-    "build:pack": "tsc && package"
+    "pack": "ncc build",
+    "build:pack": "npm run build && npm run pack"
   },
   "repository": {
     "type": "git",

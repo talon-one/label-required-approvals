@@ -9093,9 +9093,9 @@ function run() {
             const repoName = (_c = context.payload.repository) === null || _c === void 0 ? void 0 : _c.name;
             // const labels = getPrLabels(client, prNumber);
             // console.log(`labels test: ${labels.toString()}`);
-            console.log("number", prNumber);
-            console.log("orgname", orgName);
-            console.log("repoName", repoName);
+            debug(`number - ${prNumber}`);
+            debug(`orgname - ${orgName}`);
+            debug(`repoName - ${repoName}`);
         }
         catch (error) {
             coreError(error);
