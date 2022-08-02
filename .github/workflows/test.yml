@@ -11,9 +11,8 @@ jobs:
     name: Check if the PR requires a specifit team approval
     steps:
       - uses: actions/checkout@v3
-      - run: |
-        npm i
-        npm run build:pack
+      - run: npm i
+      - run: npm run build:pack
       - uses: ./
         with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
