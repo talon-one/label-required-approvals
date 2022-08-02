@@ -1,15 +1,19 @@
-name: PR Required Reviews
+name: Test Action
 
 on:
+  push:
   pull_request:
     types: [opened, reopened, synchronize, labeled, unlabeled]
 
 jobs:
-  label-required-approvals:
+  test:
     runs-on: ubuntu-latest
     name: Check if the PR requires a specifit team approval
     steps:
-      - name: Check Labels
-        uses: lvegerano/label-approvals@main
+      - uses: actions/checkout@v3
+      - run: |
+        npm i
+        npm run build:pack
+      - uses: ./
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
