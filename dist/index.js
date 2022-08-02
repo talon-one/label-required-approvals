@@ -9032,8 +9032,8 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
     });
 };
 
-function github_createClient(token) {
-    return getOctokit(token);
+function createClient(token) {
+    return (0,github.getOctokit)(token);
 }
 function getPrNumber() {
     var _a;
@@ -9085,24 +9085,25 @@ function run() {
     var _a, _b, _c;
     return main_awaiter(this, void 0, void 0, function* () {
         try {
-            const token = getInput("repo-token", { required: true });
-            const configPath = getInput("configuration-path", { required: true });
+            const token = (0,core.getInput)("repo-token", { required: true });
+            const configPath = (0,core.getInput)("configuration-path", { required: true });
             const client = createClient(token);
-            const prNumber = (_a = context.payload.pull_request) === null || _a === void 0 ? void 0 : _a.number;
-            const orgName = (_b = context.payload.repository) === null || _b === void 0 ? void 0 : _b.owner;
-            const repoName = (_c = context.payload.repository) === null || _c === void 0 ? void 0 : _c.name;
+            const prNumber = (_a = github.context.payload.pull_request) === null || _a === void 0 ? void 0 : _a.number;
+            const orgName = (_b = github.context.payload.repository) === null || _b === void 0 ? void 0 : _b.owner;
+            const repoName = (_c = github.context.payload.repository) === null || _c === void 0 ? void 0 : _c.name;
             // const labels = getPrLabels(client, prNumber);
             // console.log(`labels test: ${labels.toString()}`);
-            debug(`number - ${prNumber}`);
-            debug(`orgname - ${orgName}`);
-            debug(`repoName - ${repoName}`);
+            (0,core.debug)(`number - ${prNumber}`);
+            (0,core.debug)(`orgname - ${orgName}`);
+            (0,core.debug)(`repoName - ${repoName}`);
         }
         catch (error) {
-            coreError(error);
-            setFailed(error.message);
+            (0,core.error)(error);
+            (0,core.setFailed)(error.message);
         }
     });
 }
+run();
 
 })();
 
