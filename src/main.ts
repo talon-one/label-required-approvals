@@ -15,6 +15,8 @@ const run = async () => {
     const client = createClient(token);
     const prNumber = context.payload.pull_request?.number;
 
+    info(`configPath -> ${configPath}`);
+
     if (!prNumber) {
       notice("Could not get a pull request number from context, exiting...");
       return;
