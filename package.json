@@ -1,0 +1,36 @@
+{
+  "name": "label-approvals",
+  "version": "1.0.0",
+  "description": "Require certain team-members approvals based on labels",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lvegerano/label-approvals.git"
+  },
+  "keywords": [
+    "required",
+    "checks",
+    "actions",
+    "github",
+    "labels"
+  ],
+  "author": "Luis Vegerano",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lvegerano/label-approvals/issues"
+  },
+  "homepage": "https://github.com/lvegerano/label-approvals#readme",
+  "dependencies": {
+    "@actions/core": "^1.9.0",
+    "@actions/github": "^5.0.3",
+    "js-yaml": "^4.1.0"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.5",
+    "prettier": "^2.7.1",
+    "typescript": "^4.7.4"
+  }
+}

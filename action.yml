@@ -1,0 +1,17 @@
+name: "label-approvals"
+description: "Requires certain team member approvals based on certain labels"
+author: "Luis Vegerano"
+inputs:
+  repo-token:
+    required: true
+    description: "The GITHUB_TOKEN secret"
+  organization:
+    required: false
+    description: "The organization where the pull request is created"
+  configuration-path:
+    required: false
+    description: "The path to the label -> approvers configuration file"
+    default: ".github/team-approvers.yml"
+runs:
+  using: "node16"
+  main: "index.js"
