@@ -6,7 +6,7 @@ on:
 
 jobs:
   label-required-approvals:
-    run-on: ubuntu-latest
+    runs-on: ubuntu-latest
     name: Check if the PR requires a specifit team approval
     steps:
       - name: Check Labels
