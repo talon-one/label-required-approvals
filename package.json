@@ -2,11 +2,12 @@
   "name": "label-approvals",
   "version": "1.0.0",
   "description": "Require certain team-members approvals based on labels",
-  "main": "dist/main.js",
+  "main": "lib/main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
-    "package": "ncc build"
+    "package": "ncc build",
+    "build:pack": "tsc && package"
   },
   "repository": {
     "type": "git",
