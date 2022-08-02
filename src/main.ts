@@ -11,7 +11,7 @@ async function run() {
 
     const labels = getPrLabels(client, prNumber);
 
-    info(`labels: ${labels.toString()}`);
+    info(`labels test: ${labels.toString()}`);
   } catch (error: any) {
     coreError(error);
     setFailed(error.message);
