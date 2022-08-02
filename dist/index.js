@@ -9090,7 +9090,7 @@ function run() {
             const client = createClient(token);
             const prNumber = (_a = context.payload.pull_request) === null || _a === void 0 ? void 0 : _a.number;
             const labels = getPrLabels(client, prNumber);
-            info(`labels: ${labels.toString()}`);
+            console.log(`labels test: ${labels.toString()}`);
         }
         catch (error) {
             coreError(error);
