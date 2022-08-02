@@ -21,7 +21,7 @@ export async function getPrLabels(
     pull_number: prNumber,
   });
 
-  return pullRequest.labels;
+  return pullRequest.labels.map((label) => label.name);
 }
 
 export async function getApprovals(
