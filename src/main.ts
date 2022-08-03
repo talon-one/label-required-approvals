@@ -24,6 +24,8 @@ const run = async () => {
 
     const yamlConfig = await getLabelConfig(configPath);
 
+    info(`yamlconfig: ${JSON.stringify(yamlConfig)}`);
+
     if (!yamlConfig) {
       setFailed("Error reading the config yaml file");
       return;
@@ -36,7 +38,11 @@ const run = async () => {
       context.repo.repo
     );
 
+    info(`prLabels: ${JSON.stringify(prLabels)}`);
+
     const requiredReviews = getRequireApprovals(yamlConfig, prLabels);
+
+    info(`requiredReview: ${JSON.stringify(requiredReviews)}`);
 
     const approvals = await getApprovals(
       client,
@@ -44,6 +50,8 @@ const run = async () => {
       context.repo.owner,
       context.repo.repo
     );
+
+    info(`approvals: ${JSON.stringify(approvals)}`);
 
     const needsApprovalFrom = Object.entries(requiredReviews).reduce(
       (accum, [key, value]) => {
