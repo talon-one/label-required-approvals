@@ -1,3 +1,4 @@
+import { info } from "@actions/core";
 import { readFile } from "fs/promises";
 import { load } from "js-yaml";
 
@@ -8,6 +9,7 @@ interface YamlConfigInt {
 export async function getLabelConfig(
   configPath: string
 ): Promise<YamlConfigInt> {
+  info(`workspace ${process.env.GITHUB_WORKSPACE}`);
   const config = await readFile(`./${configPath}`, "utf-8");
   return load(config) as YamlConfigInt;
 }
