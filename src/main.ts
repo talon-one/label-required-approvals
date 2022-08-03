@@ -6,9 +6,9 @@ import {
   notice,
 } from "@actions/core";
 import { context } from "@actions/github";
-import { createClient, getPrLabels } from "./github";
-import { readFile } from "fs/promises";
-import { load } from "js-yaml";
+import { createClient, getApprovals, getPrLabels } from "./github";
+import { intersection } from "./intersection";
+import { getLabelConfig, getRequireApprovals } from "./labels";
 
 const run = async () => {
   try {
@@ -22,18 +22,12 @@ const run = async () => {
       return;
     }
 
-    const config = await readFile(`./${configPath}`, "utf-8");
-    const yamlConfig = load(config);
+    const yamlConfig = await getLabelConfig(configPath);
 
     if (!yamlConfig) {
       setFailed("Error reading the config yaml file");
       return;
     }
-
-    info(`config -> ${JSON.stringify(yamlConfig)}`);
-
-    // const labels = getPrLabels(client, prNumber);
-    // console.log(`labels test: ${labels.toString()}`);
 
     const prLabels = await getPrLabels(
       client,
@@ -42,7 +36,31 @@ const run = async () => {
       context.repo.repo
     );
 
-    info(`pr labels - ${JSON.stringify(prLabels)}`);
+    const requiredReviews = getRequireApprovals(yamlConfig, prLabels);
+
+    const approvals = await getApprovals(
+      client,
+      prNumber,
+      context.repo.owner,
+      context.repo.repo
+    );
+
+    const needsApprovalFrom = Object.entries(requiredReviews).reduce(
+      (accum, [key, value]) => {
+        const intersect = intersection([value, approvals]);
+        if (!intersect.length) {
+          accum.push(key);
+        }
+        return accum;
+      },
+      [] as string[]
+    );
+
+    if (needsApprovalFrom.length) {
+      throw new Error(
+        `Missing approvals from labels: ${needsApprovalFrom.join()}`
+      );
+    }
   } catch (error: any) {
     coreError(error);
     setFailed(error.message);

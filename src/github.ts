@@ -29,14 +29,14 @@ export async function getApprovals(
   prNumber: number,
   owner: string,
   repo: string
-) {
+): Promise<(string | undefined)[]> {
   const { data: reviews } = await client.rest.pulls.listReviews({
     owner,
     repo,
     pull_number: prNumber,
   });
 
-  return reviews
+  return (reviews || [])
     .filter((review) => review.state === "APPROVED")
     .map((filteredReview) => filteredReview.user?.login);
 }
