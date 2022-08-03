@@ -9032,14 +9032,14 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
     });
 };
 
-function github_createClient(token) {
-    return getOctokit(token);
+function createClient(token) {
+    return (0,github.getOctokit)(token);
 }
 function getPrNumber() {
     var _a;
     return ((_a = context.payload.pull_request) === null || _a === void 0 ? void 0 : _a.number) || undefined;
 }
-function github_getPrLabels(client, prNumber) {
+function getPrLabels(client, prNumber) {
     return __awaiter(this, void 0, void 0, function* () {
         const data = yield client.graphql(`
       {
@@ -9081,23 +9081,27 @@ var main_awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arg
 
 
 
-function run() {
-    var _a;
-    return main_awaiter(this, void 0, void 0, function* () {
-        try {
-            const token = getInput("repo-token", { required: true });
-            const configPath = getInput("configuration-path", { required: true });
-            const client = createClient(token);
-            const prNumber = (_a = context.payload.pull_request) === null || _a === void 0 ? void 0 : _a.number;
-            const labels = getPrLabels(client, prNumber);
-            info(`labels: ${labels.toString()}`);
-        }
-        catch (error) {
-            coreError(error);
-            setFailed(error.message);
-        }
-    });
-}
+const run = () => main_awaiter(void 0, void 0, void 0, function* () {
+    var _a, _b, _c;
+    try {
+        const token = (0,core.getInput)("repo-token", { required: true });
+        const configPath = (0,core.getInput)("configuration-path", { required: true });
+        const client = createClient(token);
+        const prNumber = (_a = github.context.payload.pull_request) === null || _a === void 0 ? void 0 : _a.number;
+        const orgName = (_b = github.context.payload.repository) === null || _b === void 0 ? void 0 : _b.owner;
+        const repoName = (_c = github.context.payload.repository) === null || _c === void 0 ? void 0 : _c.name;
+        // const labels = getPrLabels(client, prNumber);
+        // console.log(`labels test: ${labels.toString()}`);
+        (0,core.info)(`number - ${prNumber}`);
+        (0,core.info)(`orgname - ${orgName}`);
+        (0,core.info)(`repoName - ${repoName}`);
+    }
+    catch (error) {
+        (0,core.error)(error);
+        (0,core.setFailed)(error.message);
+    }
+});
+run();
 
 })();
 

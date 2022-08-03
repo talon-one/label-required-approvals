@@ -6,8 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
-    "package": "ncc build",
-    "build:pack": "tsc && package"
+    "pack": "ncc build",
+    "build:pack": "npm run build && npm run pack"
   },
   "repository": {
     "type": "git",
@@ -33,6 +33,7 @@
   },
   "devDependencies": {
     "@types/js-yaml": "^4.0.5",
+    "@types/node": "^18.6.3",
     "@vercel/ncc": "^0.34.0",
     "prettier": "^2.7.1",
     "typescript": "^4.7.4"

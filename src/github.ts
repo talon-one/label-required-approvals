@@ -11,33 +11,32 @@ export function getPrNumber(): number | undefined {
 
 export async function getPrLabels(
   client: InstanceType<typeof GitHub>,
-  prNumber: number | undefined
+  prNumber: number,
+  owner: string,
+  repo: string
 ) {
-  const data = await client.graphql(
-    `
-      {
-        viewer {
-          pullRequests(states: OPEN, first: 100) {
-            edges {
-              node {
-                number
-                repository {
-                  name
-                }
-                labels(first: 100) {
-                  edges {
-                    node {
-                      name
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    `
-  );
+  const { data: pullRequest } = await client.rest.pulls.get({
+    owner,
+    repo,
+    pull_number: prNumber,
+  });
 
-  return data;
+  return pullRequest.labels.map((label) => label.name);
+}
+
+export async function getApprovals(
+  client: InstanceType<typeof GitHub>,
+  prNumber: number,
+  owner: string,
+  repo: string
+): Promise<(string | undefined)[]> {
+  const { data: reviews } = await client.rest.pulls.listReviews({
+    owner,
+    repo,
+    pull_number: prNumber,
+  });
+
+  return (reviews || [])
+    .filter((review) => review.state === "APPROVED")
+    .map((filteredReview) => filteredReview.user?.login);
 }

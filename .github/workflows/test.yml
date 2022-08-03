@@ -1,0 +1,18 @@
+name: Test Action
+
+on:
+  push:
+  pull_request:
+    types: [opened, reopened, synchronize, labeled, unlabeled]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    name: Check if the PR requires a specifit team approval
+    steps:
+      - uses: actions/checkout@v3
+      - run: npm i
+      - run: npm run build:pack
+      - uses: ./
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
