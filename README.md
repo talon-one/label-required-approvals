@@ -6,7 +6,7 @@ This is a Github Action to require the approval of a Pull Reques from a team mem
 
 ---
 
-### Create `.github/
+### Create `.github/team-approvers.yml`
 
 You need to provide a yml file contains the label and the approvers for the label:
 
