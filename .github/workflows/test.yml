@@ -1,18 +1,28 @@
 name: Test Action
 
 on:
-  push:
   pull_request:
+    branches:
+      - main
     types: [opened, reopened, synchronize, labeled, unlabeled]
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
-    name: Check if the PR requires a specifit team approval
+    name: Ensure build is working correctly
     steps:
       - uses: actions/checkout@v3
-      - run: npm i
-      - run: npm run build:pack
+      - run: |
+          npm i
+          npm run build:pack
       - uses: ./
         with:
-          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+  test:
+    runs-on: ubuntu-latest
+    name: Ensure action works on a clean machine without building
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./
+      with:
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
