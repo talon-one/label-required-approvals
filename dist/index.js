@@ -8994,6 +8994,35 @@ module.exports = JSON.parse('[[[0,44],"disallowed_STD3_valid"],[[45,46],"valid"]
 /******/ 	}
 /******/ 	
 /************************************************************************/
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__nccwpck_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__nccwpck_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__nccwpck_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__nccwpck_require__.o(definition, key) && !__nccwpck_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__nccwpck_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/make namespace object */
 /******/ 	(() => {
 /******/ 		// define __esModule on exports
@@ -9067,6 +9096,8 @@ function intersection(arrays) {
     return (arrays || []).reduce((a, b) => a.filter((c) => b.includes(c)));
 }
 
+// EXTERNAL MODULE: external "fs"
+var external_fs_ = __nccwpck_require__(7147);
 ;// CONCATENATED MODULE: external "fs/promises"
 const promises_namespaceObject = require("fs/promises");
 ;// CONCATENATED MODULE: ./node_modules/js-yaml/dist/js-yaml.mjs
@@ -12922,6 +12953,9 @@ var jsYaml = {
 /* harmony default export */ const js_yaml = ((/* unused pure expression or super */ null && (jsYaml)));
 
 
+// EXTERNAL MODULE: external "path"
+var external_path_ = __nccwpck_require__(1017);
+var external_path_default = /*#__PURE__*/__nccwpck_require__.n(external_path_);
 ;// CONCATENATED MODULE: ./lib/labels.js
 var labels_awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -12934,9 +12968,17 @@ var labels_awaiter = (undefined && undefined.__awaiter) || function (thisArg, _a
 };
 
 
+
+
+
 function getLabelConfig(configPath) {
     return labels_awaiter(this, void 0, void 0, function* () {
-        const config = yield (0,promises_namespaceObject.readFile)(`./${configPath}`, "utf-8");
+        (0,core.info)(`workspace ${process.env.GITHUB_WORKSPACE}`);
+        const pathToConfig = external_path_default().join(process.env.GITHUB_WORKSPACE, configPath);
+        if (!(0,external_fs_.existsSync)(pathToConfig)) {
+            throw new Error(`File ${configPath} could not be found in your project's workspace. You may need the actions/checkout action to clone the repository first.`);
+        }
+        const config = yield (0,promises_namespaceObject.readFile)(external_path_default().join(process.env.GITHUB_WORKSPACE, configPath), "utf-8");
         return load(config);
     });
 }
