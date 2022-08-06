@@ -2,13 +2,19 @@ import {
   getInput,
   error as coreError,
   setFailed,
-  info,
   notice,
+  error,
 } from "@actions/core";
 import { context } from "@actions/github";
 import { createClient, getApprovals, getPrLabels } from "./github";
 import { intersection } from "./intersection";
 import { getLabelConfig, getRequireApprovals } from "./labels";
+import {
+  reportStatus,
+  STATE_ERROR,
+  STATE_PENDING,
+  STATE_SUCCESS,
+} from "./reporter";
 
 const run = async () => {
   try {
@@ -25,7 +31,12 @@ const run = async () => {
     const yamlConfig = await getLabelConfig(configPath);
 
     if (!yamlConfig) {
-      setFailed("Error reading the config yaml file");
+      error("Error reading the config yaml file");
+      await reportStatus(
+        client,
+        STATE_ERROR,
+        "Action failed reading the yml file."
+      );
       return;
     }
 
@@ -57,8 +68,17 @@ const run = async () => {
     );
 
     if (needsApprovalFrom.length) {
-      throw new Error(
-        `Missing approvals from labels: ${needsApprovalFrom.join()}`
+      error(`Missing approvals from labels: ${needsApprovalFrom.join()}`);
+      await reportStatus(
+        client,
+        STATE_PENDING,
+        `Awaiting reviews for labels ${needsApprovalFrom.join()}`
+      );
+    } else {
+      await reportStatus(
+        client,
+        STATE_SUCCESS,
+        "All required reviews have been provided"
       );
     }
   } catch (error: any) {

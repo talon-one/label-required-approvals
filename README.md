@@ -32,8 +32,9 @@ Create a workflow (e.g. `github/workflows/label-approvers.yml` see [Creating a W
 ```yml
 name: label-required-approvals
 on:
+  pull_request_review:
   pull_request:
-    types: [opened, reopened, synchronize, labeled, unlabeled]
+    types: [opened, reopened, labeled, unlabeled]
 jobs
   required-approvals:
     runs-on: ubuntu-latest
