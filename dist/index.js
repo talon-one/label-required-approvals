@@ -12992,6 +12992,36 @@ function getRequireApprovals(yamlConfig, labels) {
     }, {});
 }
 
+;// CONCATENATED MODULE: ./lib/reporter.js
+
+
+const STATE_ERROR = "error";
+const STATE_FAILURE = "failure";
+const STATE_PENDING = "pending";
+const STATE_SUCCESS = "success";
+const reportStatus = (client, state, description) => {
+    var _a, _b;
+    if (!process.env.CI)
+        return;
+    const owner = github.context.repo.owner;
+    const repo = github.context.repo.repo;
+    const sha = (_b = (_a = github.context.payload.pull_request) === null || _a === void 0 ? void 0 : _a.head) === null || _b === void 0 ? void 0 : _b.sha;
+    const target_url = `https://github.com/${owner}/${repo}/actions/runs/${github.context.runId}`;
+    const checkContex = (0,core.getInput)("status", { required: true });
+    if (!sha) {
+        throw new Error("PR sha missing!");
+    }
+    return client.rest.repos.createCommitStatus({
+        owner,
+        repo,
+        sha,
+        state,
+        target_url,
+        description,
+        context: checkContex,
+    });
+};
+
 ;// CONCATENATED MODULE: ./lib/main.js
 var main_awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -13002,6 +13032,7 @@ var main_awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arg
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+
 
 
 
@@ -13020,7 +13051,8 @@ const run = () => main_awaiter(void 0, void 0, void 0, function* () {
         }
         const yamlConfig = yield getLabelConfig(configPath);
         if (!yamlConfig) {
-            (0,core.setFailed)("Error reading the config yaml file");
+            (0,core.error)("Error reading the config yaml file");
+            yield reportStatus(client, STATE_ERROR, "Action failed reading the yml file.");
             return;
         }
         const prLabels = yield getPrLabels(client, prNumber, github.context.repo.owner, github.context.repo.repo);
@@ -13034,7 +13066,11 @@ const run = () => main_awaiter(void 0, void 0, void 0, function* () {
             return accum;
         }, []);
         if (needsApprovalFrom.length) {
-            throw new Error(`Missing approvals from labels: ${needsApprovalFrom.join()}`);
+            (0,core.error)(`Missing approvals from labels: ${needsApprovalFrom.join()}`);
+            yield reportStatus(client, STATE_PENDING, `Awaiting reviews for labels ${needsApprovalFrom.join()}`);
+        }
+        else {
+            yield reportStatus(client, STATE_SUCCESS, "All required reviews have been provided");
         }
     }
     catch (error) {
