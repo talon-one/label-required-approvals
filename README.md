@@ -1,6 +1,7 @@
 # Label Required Approvals Action
 
 This is a Github Action to require the approval of a Pull Reques from a team member based on the labels applied to it.
+![example](./assets/checks.png)
 
 ## Configuration
 
