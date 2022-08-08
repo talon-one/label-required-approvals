@@ -1,4 +1,4 @@
-name: "label-approvals"
+name: "label-required-approvals"
 description: "Requires certain team member approvals based on certain labels"
 author: "Luis Vegerano"
 inputs:
@@ -16,3 +16,6 @@ inputs:
 runs:
   using: "node16"
   main: "dist/index.js"
+branding:
+  icon: "user-check"
+  color: "blue"
