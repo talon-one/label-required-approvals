@@ -4,8 +4,6 @@ This is a Github Action to require the approval of a Pull Reques from a team mem
 
 ## Configuration
 
----
-
 ### Create `.github/team-approvers.yml`
 
 You need to provide a yml file contains the label and the approvers for the label:
@@ -21,9 +19,15 @@ BlueAjah:
 
 _NOTE_: only one team member per label is required to approve.
 
-## Usage
+### Action Inputs
 
----
+| input               | description                                                                                 | required | default value                |
+| ------------------- | ------------------------------------------------------------------------------------------- | -------- | ---------------------------- |
+| repo-token          | The GITHUB_TOKEN secret or a PAT that allows PR management                                  | true     | _undefined_                  |
+| status              | Specifies the 'context' for the status to be set. This will show up in the PR's checks list | false    | _Required Reviews_           |
+| configureation-path | Path to the label -> approvers configuration file                                           | false    | _.github/team-approvers.yml_ |
+
+## Usage
 
 ### Create `.github/workflows/label-approvers.yml`
 

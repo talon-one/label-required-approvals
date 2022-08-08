@@ -9,9 +9,6 @@ inputs:
     required: false
     description: "Specifies the 'context' for the status to be set. This will show up in the PR's checks list"
     default: "Required Reviews"
-  organization:
-    required: false
-    description: "The organization where the pull request is created"
   configuration-path:
     required: false
     description: "The path to the label -> approvers configuration file"
