@@ -36,7 +36,14 @@ export async function getApprovals(
     pull_number: prNumber,
   });
 
-  return (reviews || [])
-    .filter((review) => review.state === "APPROVED")
-    .map((filteredReview) => filteredReview.user?.login);
+  const reviewers: Set<string | undefined> = new Set();
+  (reviews || []).forEach((review) => {
+    if (review.state === "APPROVED") {
+      reviewers.add(review.user?.login);
+    } else {
+      reviewers.delete(review.user?.login);
+    }
+  });
+
+  return [...reviewers];
 }
