@@ -9085,9 +9085,17 @@ function getApprovals(client, prNumber, owner, repo) {
             repo,
             pull_number: prNumber,
         });
-        return (reviews || [])
-            .filter((review) => review.state === "APPROVED")
-            .map((filteredReview) => { var _a; return (_a = filteredReview.user) === null || _a === void 0 ? void 0 : _a.login; });
+        const reviewers = new Set();
+        (reviews || []).forEach((review) => {
+            var _a, _b;
+            if (review.state === "APPROVED") {
+                reviewers.add((_a = review.user) === null || _a === void 0 ? void 0 : _a.login);
+            }
+            else {
+                reviewers.delete((_b = review.user) === null || _b === void 0 ? void 0 : _b.login);
+            }
+        });
+        return [...reviewers];
     });
 }
 
