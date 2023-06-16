@@ -7,7 +7,7 @@ import {
 } from "@actions/core";
 import { context } from "@actions/github";
 import { createClient, getApprovals, getPrLabels } from "./github";
-import { intersection } from "./intersection";
+import { intersection } from "./utils";
 import { getLabelConfig, getRequireApprovals } from "./labels";
 import {
   reportStatus,
