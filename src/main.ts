@@ -2,6 +2,7 @@ import {
   getInput,
   setFailed,
   notice,
+  info,
   error,
 } from "@actions/core";
 import { context } from "@actions/github";
@@ -51,12 +52,16 @@ const run = async () => {
       (team: string) => getTeamMembers(client, team)
     );
 
+    info(`Review required from: ${approvals.join()}`);
+
     const approvals = await getApprovals(
       client,
       prNumber,
       context.repo.owner,
       context.repo.repo
     );
+
+    info(`Approved by: ${approvals.join()}`);
 
     const needsApprovalFrom = Object.entries(requiredReviews).reduce<string[]>(
       (accum, [key, value]) => {
